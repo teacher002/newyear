@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Year Countdown</title>
+  <style>
+    .clock {
+      width: 200px;
+      height: 200px;
+      border: 2px solid black;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+    }
+  </style>
+</head>
+ 
+<body>
+  <div id="clock" class="clock"></div>
+  <div id="countdown"></div>
+ 
+  <script>
+    function updateClock() {
+      const clock = document.getElementById("clock");
+      const currentTime = new Date();
+ 
+      const seconds = currentTime.getSeconds();
+      const minutes = currentTime.getMinutes();
+      const hours = currentTime.getHours();
+ 
+      const secondsAngle = (seconds / 60) * 360;
+      const minutesAngle = ((minutes * 60 + seconds) / 3600) * 360;
+      const hoursAngle = ((hours * 3600 + minutes * 60 + seconds) / 43200) * 360;
+ 
+      clock.style.transform = `rotate(${secondsAngle}deg)`;
+      clock.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+ 
+      setTimeout(updateClock, 1000);
+    }
+ 
+    function updateCountdown() {
+      const countdown = document.getElementById("countdown");
+      const now = new Date();
+      const newYear = new Date(now.getFullYear() + 1, 0, 1);
+      const timeLeft = newYear - now;
+ 
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+ 
+      countdown.innerHTML = `剩下的时间直到新年: ${days} 天, ${hours} 小时, ${minutes} 分钟`;
+ 
+      setTimeout(updateCountdown, 1000);
+    }
+ 
+    updateClock();
+    updateCountdown();
+  </script>
+</body>
+ 
+</html>
